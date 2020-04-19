@@ -15,10 +15,15 @@ public class Main {
 		  int[] money= {5,1,8,4,6,3,2,4};
 		  System.out.print(maxMoney(time,money));*/
 		 
+		
+		//测试     3，B站教程例3（数字组合相加为要求值，求这个组合）
+		int[] a= {3,34,4,12,5,2};
+		System.out.print(jioacheng3(a,9));
+		
 
 	}
 	
-	//1,斐波那锲数列（下一项等于前两项之和）
+	//1, 斐波那锲数列（下一项等于前两项之和）
 	public int feibonaqie(int n) {
 		if(n==0) {
 			return 1;
@@ -73,7 +78,35 @@ public class Main {
 	}
 	
 	
-	
+	//3. B站教程例3（数字组合相加为要求值，求这个组合）
+	public static boolean jioacheng3(int[] arr,int num) {
+		//定义用来存储状态的二维数组，行代表arr中的数字，列代表0到num个状态
+		//arr.length个阶段，每个阶段有num个状态，下一个阶段要用到上一个阶段的状态但是不一定是最优状态（这里是和贪心的区别）
+		boolean[][] subset=new boolean[arr.length][num+1];
+		for(int i=0;i<arr.length;i++) {
+			for(int j=0;j<num+1;j++) {
+				subset[i][j]=false;
+			}
+		}
+		//第一列初始化，因为每一列都可以不选等于0
+		for(int j=0;j<arr.length;j++) {
+			subset[j][0]=true;
+		}
+		subset[0][arr[0]]=true;
+		
+		//初始化完毕，开始一个一个给数组赋值吧
+		for(int i=1;i<arr.length;i++) {
+			for(int j=1;j<num+1;j++) {
+				if(arr[i]>j) {
+					subset[i][j]=subset[i-1][j];
+				}
+				else {
+					subset[i][j]=(subset[i-1][j-arr[i]]||subset[i-1][j]);
+				}
+			}
+		}
+		return subset[arr.length-1][num];
+	}
 	
 	
 	
